@@ -1,0 +1,24 @@
+{
+    "name": "ccmbenchmark/bigquery-bundle",
+    "description": "Batch upload data to Google bigquery with Symfony",
+    "type": "symfony-bundle",
+    "require": {
+        "google/cloud-bigquery": "dev-master",
+        "google/cloud-storage": "dev-master",
+        "google/apiclient": "^2.0@dev",
+        "symfony/dependency-injection": "^3.4|^4.0",
+        "symfony/config": "^3.4|^4.0"
+    },
+    "require-dev": {
+        "atoum/atoum": "^3.0@dev",
+        "atoum/stubs": "^2.0@dev"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Xavier Leune",
+            "email": "xleune@ccmbenchmark.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
