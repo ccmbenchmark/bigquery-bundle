@@ -7,11 +7,15 @@
         "google/cloud-storage": "dev-master",
         "google/apiclient": "^2.0@dev",
         "symfony/dependency-injection": "^3.4|^4.0",
-        "symfony/config": "^3.4|^4.0"
+        "symfony/config": "^3.4|^4.0",
+        "ext-json": "*"
     },
     "require-dev": {
         "atoum/atoum": "^3.0@dev",
         "atoum/stubs": "^2.0@dev"
+    },
+    "autoload": {
+        "psr-4": {"CCMBenchmark\\BigQueryBundle\\": "src/BigQueryBundle/"}
     },
     "license": "MIT",
     "authors": [

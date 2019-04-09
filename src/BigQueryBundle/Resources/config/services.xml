@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <defaults autowire="true" autoconfigure="true" public="false" />
+
+        <prototype namespace="CCMBenchmark\BigQueryBundle\" resource="../*" />
+
+        <service id="Google_Client" class="Google_Client">
+            <factory service="AppBundle\DataSources\GoogleAnalytics\ClientFactory" method="getClient" />
+        </service>
+
+        <!-- Google -->
+        <service id="Google_Service_Bigquery" class="Google_Service_Bigquery" />
+        <service id="Google_Service_Storage" class="Google_Service_Storage" />
+
+        <service id="CCMBenchmark\BigQueryBundle\BigQuery\UnitOfWork">
+            <argument key="$bucket">%cloudstorage.bucket%</argument>
+        </service>
+
+        <!-- BigQuery Metadata -->
+        <!--<service id="AppBundle\DataStorage\BigQuery\DisplayMetadata">
+            <argument>%bigquery.projectid%</argument>
+            <argument>%bigquery.datasetid%</argument>
+            <tag name="app.bigquery_metadata" />
+        </service>
+        <service id="AppBundle\DataStorage\BigQuery\AnalyticsMetadata">
+            <argument>%bigquery.projectid%</argument>
+            <argument>%bigquery.datasetid%</argument>
+            <tag name="app.bigquery_metadata" />
+        </service>-->
+    </services>
+</container>
