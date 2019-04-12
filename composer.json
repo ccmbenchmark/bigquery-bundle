@@ -12,7 +12,8 @@
     },
     "require-dev": {
         "atoum/atoum": "^3.0@dev",
-        "atoum/stubs": "^2.0@dev"
+        "atoum/stubs": "^2.0@dev",
+        "atoum/reports-extension": "dev-master"
     },
     "autoload": {
         "psr-4": {"CCMBenchmark\\BigQueryBundle\\": "src/BigQueryBundle/"}
