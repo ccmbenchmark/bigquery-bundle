@@ -6,7 +6,7 @@ trait RowTrait
 {
     private $createdAt;
 
-    public function getCreatedAt()
+    public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
     }
