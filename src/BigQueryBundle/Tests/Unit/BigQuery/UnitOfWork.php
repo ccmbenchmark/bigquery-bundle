@@ -14,6 +14,8 @@ class UnitOfWork extends atoum
     private $fileSystem;
     private $bigQueryClientMock;
     private $metadataRepository;
+    private $jobFactory;
+
     /**
      * @var \CCMBenchmark\BigQueryBundle\BigQuery\UnitOfWork
      */
@@ -23,6 +25,12 @@ class UnitOfWork extends atoum
     {
         parent::beforeTestMethod($method);
         $this->fileSystem = new \mock\CCMBenchmark\BigQueryBundle\Tests\Fixtures\CloudStorage\DummyFileSystem();
+
+        $this->jobFactory = new \CCMBenchmark\BigQueryBundle\BigQuery\JobFactory(
+            $this->fileSystem,
+            'test'
+        );
+
         $this->mockGenerator()->orphanize('__construct');
         $googleClientMock = new \mock\Google_Client();
 
@@ -30,9 +38,9 @@ class UnitOfWork extends atoum
             $googleClientMock
         ]);
         $this->bigQueryClientMock->jobs = new class{
-            public $job;
+            public $job = [];
             function insert($projectId, \Google_Service_Bigquery_Job $job) {
-                $this->job = $job;
+                $this->job[] = $job;
                 return true;
             }
         };
@@ -48,9 +56,8 @@ class UnitOfWork extends atoum
 
         $this->instance = new \CCMBenchmark\BigQueryBundle\BigQuery\UnitOfWork(
             $this->bigQueryClientMock,
-            $this->fileSystem,
-            'tests',
-            $this->metadataRepository
+            $this->metadataRepository,
+            $this->jobFactory
         );
     }
 
@@ -70,30 +77,6 @@ class UnitOfWork extends atoum
                     $createdAt
                 )
             ))
-            ->when($this->instance->flush())
-            ->then
-                ->mock($this->fileSystem)
-                    ->call('store')
-                        ->once()
-        ;
-    }
-
-    public function test Flush With 2 Data Type Should Call Store Once Per Type()
-    {
-        $date = \DateTime::createFromFormat('Y-m-d', '2019-04-09');
-        $createdAt = new \DateTime();
-        $this
-            ->if($this->instance->addData(
-                new Analytics(
-                    $date,
-                    'FR',
-                    'google.com',
-                    'mobile',
-                    5000,
-                    4000,
-                    $createdAt
-                )
-            ))
             ->and($this->instance->addData(
                 new Analytics(
                     $date,
@@ -102,37 +85,20 @@ class UnitOfWork extends atoum
                     'mobile',
                     5000,
                     4000,
-                    $createdAt
-                )
-            ))
-            ->and($this->instance->addData(
-                new Display(
-                    $date,
-                    'Google',
-                    'type',
-                    'FR',
-                    'google.com',
-                    'mobile',
-                    'atf',
-                    5000,
-                    4000,
-                    1000,
                     $createdAt
                 )
             ))
             ->when($this->instance->flush())
-            ->then
-                ->mock($this->fileSystem)
-                    ->call('store')
-                        ->twice()
+            ->then()
+                ->array($this->bigQueryClientMock->jobs->job)
+                    ->hasSize(1)
         ;
     }
 
-    public function test Flush Should Create A Job()
+    public function test Flush With 2 Data Type Should Create 2 Jobs()
     {
         $date = \DateTime::createFromFormat('Y-m-d', '2019-04-09');
         $createdAt = new \DateTime();
-
         $this
             ->if($this->instance->addData(
                 new Analytics(
@@ -145,19 +111,7 @@ class UnitOfWork extends atoum
                     $createdAt
                 )
             ))
-            ->then($this->instance->flush())
-            ->object($this->bigQueryClientMock->jobs->job)
-                ->isInstanceOf(\Google_Service_Bigquery_Job::class)
-        ;
-    }
-
-    public function test Flush Should Create A Properly Configured Job()
-    {
-        $date = \DateTime::createFromFormat('Y-m-d', '2019-04-09');
-        $createdAt = new \DateTime();
-
-        $this
-            ->if($this->instance->addData(
+            ->and($this->instance->addData(
                 new Analytics(
                     $date,
                     'FR',
@@ -165,46 +119,6 @@ class UnitOfWork extends atoum
                     'mobile',
                     5000,
                     4000,
-                    $createdAt
-                )
-            ))
-            ->then($this->instance->flush())
-            /**
-             * @var $load \Google_Service_Bigquery_JobConfigurationLoad
-             */
-            ->when($load = $this->bigQueryClientMock->jobs->job->getConfiguration()->getLoad())
-                ->string($load->getWriteDisposition())
-                    ->isEqualTo('WRITE_APPEND')
-                ->string($load->getSourceFormat())
-                    ->isEqualTo('NEWLINE_DELIMITED_JSON')
-            ->and($table = $load->getDestinationTable())
-                ->string($table->getProjectId())
-                    ->isEqualTo('myproject_analytics')
-                ->string($table->getTableId())
-                    ->isEqualTo('analytics')
-                ->string($table->getDatasetId())
-                    ->isEqualTo('mydataset_analytics')
-        ;
-    }
-
-    public function test Flush Should Create A Newline Delimited JSON And Strip Null Values()
-    {
-        $date = \DateTime::createFromFormat('Y-m-d', '2019-04-09');
-        $createdAt = \DateTime::createFromFormat('Y-m-d H:i:s', '2019-04-09 18:49:16');
-
-        $this
-            ->if($this->instance->addData(
-                new Display(
-                    $date,
-                    'Google',
-                    'type',
-                    'FR',
-                    'google.com',
-                    'mobile',
-                    'atf',
-                    5000,
-                    4000,
-                    1000,
                     $createdAt
                 )
             ))
@@ -220,20 +134,13 @@ class UnitOfWork extends atoum
                     5000,
                     4000,
                     1000,
-                    $createdAt,
-                    1000,
-                    2000,
-                    1500
+                    $createdAt
                 )
             ))
-            ->then($this->instance->flush())
-            ->string($this->fileSystem->data)
-                ->isEqualTo(<<<JSONLD
-{"date":"2019-04-09","country":"FR","site":"google.com","device":"mobile","format":"atf","requests":5000,"net_revenue":4000,"impressions":1000,"created_at":"2019-04-09 18:49:16","partner":"Google","type":"type"}
-{"date":"2019-04-09","country":"FR","site":"google.com","device":"mobile","format":"atf","requests":5000,"clics":1000,"net_revenue":4000,"impressions":1000,"created_at":"2019-04-09 18:49:16","partner":"Google","type":"type","viewMeasuredImpressions":2000,"viewViewedImpressions":1500}
-JSONLD
-                )
-
+            ->when($this->instance->flush())
+            ->then()
+                ->array($this->bigQueryClientMock->jobs->job)
+                    ->hasSize(2)
         ;
     }
 }

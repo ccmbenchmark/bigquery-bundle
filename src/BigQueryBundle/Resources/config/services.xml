@@ -16,7 +16,7 @@
         <service id="Google_Service_Bigquery" class="Google_Service_Bigquery" />
         <service id="Google_Service_Storage" class="Google_Service_Storage" />
 
-        <service id="CCMBenchmark\BigQueryBundle\BigQuery\UnitOfWork">
+        <service id="CCMBenchmark\BigQueryBundle\BigQuery\JobFactory">
             <argument key="$bucket">%cloudstorage.bucket%</argument>
         </service>
 
