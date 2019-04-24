@@ -16,7 +16,7 @@ class BigQueryExtension extends ConfigurableExtension implements CompilerPassInt
     {
         $loader = new XmlFileLoader(
             $container,
-            new FileLocator(__DIR__.'/../Resources/config')
+            new FileLocator(__DIR__ . '/../Resources/config')
         );
 
         $jobDefinition = $container->autowire(\CCMBenchmark\BigQueryBundle\BigQuery\JobFactory::class, \CCMBenchmark\BigQueryBundle\BigQuery\JobFactory::class);
