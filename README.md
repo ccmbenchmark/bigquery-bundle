@@ -1,4 +1,4 @@
-# BigQuery Bundle
+# BigQuery Bundle
 
 This bundle offers a simple method to batch upload data to Google bigquery.
 
@@ -7,7 +7,7 @@ This bundle offers a simple method to batch upload data to Google bigquery.
 
 3 concepts are useful to work with this bundle:
 
-### Entities
+### Entities
 An entity is any object implementing `\CCMBenchmark\BigQueryBundle\BigQuery\Entity\RowInterface`.
 This interface extends JsonSerializable to handle the export to bigquery.
 An entity is coupled to a metadata object.
@@ -16,11 +16,11 @@ An entity is coupled to a metadata object.
 Metadata are responsible to store the schema related to your entity and other information used to store data into bigquery.
 A metadata is a class implementing `\CCMBenchmark\BigQueryBundle\BigQuery\MetadataInterface`.
 
-### UnitOfWork
+### UnitOfWork
 The UnitOfWork is provided by the bundle.
 It's responsible to store the data and then to upload it to bigquery.
 
-### Full example
+### Full example
 
     class MyMetadata implements CCMBenchmark\BigQueryBundle\BigQuery\MetadataInterface {
         public function getEntityClass() {
@@ -73,7 +73,7 @@ It's responsible to store the data and then to upload it to bigquery.
 
 ## Getting started
 
-### Install this package
+### Install this package
 
 1. Require the package `composer require ccmbenchmark/bigquery-bundle`
 2. Add it to your kernel:
@@ -106,7 +106,7 @@ To upload data to google big query using google cloud storage, you need:
 So using this bundle can produce charges on your account. You are responsible of that.
 
 
-### Setup the bundle
+### Setup the bundle
 
     #config/packages/big_query.yml
     big_query:
@@ -115,11 +115,11 @@ So using this bundle can produce charges on your account. You are responsible of
         api:
             application_name: "My application"
             credentials_file: "[Path to your credentials in json format]"
-        proxy: ## Remove this section if you don't have any proxy or set the values to "~"
+        proxy: ## Remove this section if you don't have any proxy or set the values to "~"
             host: "%proxy.host%"
             port: "%proxy.port"
 
-### Create and declare your metadata
+### Create and declare your metadata
 To create a metadata, create a new class implementing MetadataInterface.
 
 To automatically register your metadata into the UnitOfWork, this bundle provides a tag to declare on this service.
@@ -137,7 +137,7 @@ To upload data, you need to use the service `CCMBenchmark\BigQueryBundle\BigQuer
 This service offers a simple API. Call `addData` to store a new Entity to upload.
 When all you're entities are in the UnitOfWork, call `flush` to upload it.
 
-## Debugging
+## Debugging
 If there is no exception thrown by the code but you cannot find your data in bigquery, you should follow this steps:
 
 1. Check [google cloud storage](https://console.cloud.google.com/storage/browser).
