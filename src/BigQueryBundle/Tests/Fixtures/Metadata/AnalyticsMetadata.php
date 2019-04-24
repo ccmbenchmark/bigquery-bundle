@@ -20,13 +20,13 @@ class AnalyticsMetadata extends AbstractMetadata
     public function getSchema()
     {
         return [
-            [ "mode"=> "NULLABLE", "name"=> "created_at", "type"=> "TIMESTAMP" ],
-            [ "mode"=> "NULLABLE", "name"=> "sessions", "type"=> "INTEGER" ],
-            [ "mode"=> "NULLABLE", "name"=> "pageviews", "type"=> "INTEGER" ],
-            [ "mode"=> "NULLABLE", "name"=> "device", "type"=> "STRING" ],
-            [ "mode"=> "NULLABLE", "name"=> "site", "type"=> "STRING" ],
-            [ "mode"=> "NULLABLE", "name"=> "country", "type"=> "STRING" ],
-            [ "mode"=> "NULLABLE", "name"=> "date", "type"=> "DATE" ]
+            ["mode"=> "NULLABLE", "name"=> "created_at", "type"=> "TIMESTAMP"],
+            ["mode"=> "NULLABLE", "name"=> "sessions", "type"=> "INTEGER"],
+            ["mode"=> "NULLABLE", "name"=> "pageviews", "type"=> "INTEGER"],
+            ["mode"=> "NULLABLE", "name"=> "device", "type"=> "STRING"],
+            ["mode"=> "NULLABLE", "name"=> "site", "type"=> "STRING"],
+            ["mode"=> "NULLABLE", "name"=> "country", "type"=> "STRING"],
+            ["mode"=> "NULLABLE", "name"=> "date", "type"=> "DATE"]
         ];
     }
 }

@@ -42,7 +42,7 @@ class JobFactory
             function(\JsonSerializable &$item) {
                 $item = array_filter(
                     $item->jsonSerialize(),
-                    function ($value) {
+                    function($value) {
                         return $value !== null;
                     }
                 );
