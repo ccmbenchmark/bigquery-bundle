@@ -3,15 +3,22 @@
     "description": "Batch upload data to Google bigquery with Symfony",
     "type": "symfony-bundle",
     "require": {
-        "google/cloud-bigquery": "dev-master",
-        "google/cloud-storage": "dev-master",
-        "google/apiclient": "^2.0@dev",
+        "google/cloud-bigquery": "^1.5",
+        "google/cloud-storage": "^1.10",
+        "google/apiclient": "^2.0",
         "symfony/dependency-injection": "^3.4|^4.0",
-        "symfony/config": "^3.4|^4.0"
+        "symfony/config": "^3.4|^4.0",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "symfony/http-kernel": "^3.4|^4.0"
     },
     "require-dev": {
         "atoum/atoum": "^3.0@dev",
-        "atoum/stubs": "^2.0@dev"
+        "atoum/stubs": "^2.0@dev",
+        "atoum/reports-extension": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {"CCMBenchmark\\BigQueryBundle\\": "src/BigQueryBundle/"}
     },
     "license": "MIT",
     "authors": [
