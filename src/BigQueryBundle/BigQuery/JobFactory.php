@@ -25,7 +25,7 @@ class JobFactory
         $this->bucket = $bucket;
     }
 
-    public function createJob(MetadataInterface $metadata, array $data)
+    public function createJob(MetadataInterface $metadata, array $data): \Google_Service_Bigquery_Job
     {
         $job = new \Google_Service_Bigquery_Job();
 

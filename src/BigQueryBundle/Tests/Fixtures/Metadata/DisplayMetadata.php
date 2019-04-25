@@ -7,17 +7,17 @@ use CCMBenchmark\BigQueryBundle\Tests\Fixtures\Entity\Display;
 
 class DisplayMetadata extends AbstractMetadata
 {
-    public function getEntityClass()
+    public function getEntityClass(): string
     {
         return Display::class;
     }
 
-    public function getTableId()
+    public function getTableId(): string
     {
         return 'display';
     }
 
-    public function getSchema()
+    public function getSchema(): array
     {
         return [
             ["mode" => "NULLABLE", "name" => "viewViewedImpressions", "type" => "INTEGER"],

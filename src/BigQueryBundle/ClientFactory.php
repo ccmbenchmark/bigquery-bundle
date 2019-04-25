@@ -35,10 +35,12 @@ class ClientFactory
     }
 
     /**
+     * Create a configured google client, using an eventually defined proxy and the configured credentials
+     *
      * @return \Google_Client
      * @throws \Google_Exception
      */
-    public function getClient()
+    public function getClient(): \Google_Client
     {
         $client = new \Google_Client();
         $client->setApplicationName($this->applicationName);

@@ -17,7 +17,7 @@ class SchemaValidator  extends atoum
     public function beforeTestMethod($method)
     {
         $this->entity = new class implements RowInterface{
-            public function getCreatedAt()
+            public function getCreatedAt(): \DateTimeInterface
             {
                 return new \DateTime();
             }
@@ -44,27 +44,27 @@ class SchemaValidator  extends atoum
                 $this->schema = $schema;
             }
 
-            public function getEntityClass()
+            public function getEntityClass(): string
             {
                 return get_class($this->entity);
             }
 
-            public function getDatasetId()
+            public function getDatasetId(): string
             {
                 return 'dataset';
             }
 
-            public function getProjectId()
+            public function getProjectId(): string
             {
                 return 'project';
             }
 
-            public function getTableId()
+            public function getTableId(): string
             {
                 return 'table';
             }
 
-            public function getSchema()
+            public function getSchema(): array
             {
                 return $this->schema;
             }

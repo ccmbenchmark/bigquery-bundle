@@ -7,17 +7,17 @@ use CCMBenchmark\BigQueryBundle\Tests\Fixtures\Entity\Analytics;
 
 class AnalyticsMetadata extends AbstractMetadata
 {
-    public function getEntityClass()
+    public function getEntityClass(): string
     {
         return Analytics::class;
     }
 
-    public function getTableId()
+    public function getTableId(): string
     {
         return 'analytics';
     }
     
-    public function getSchema()
+    public function getSchema(): array
     {
         return [
             ["mode"=> "NULLABLE", "name"=> "created_at", "type"=> "TIMESTAMP"],
