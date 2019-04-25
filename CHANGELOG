@@ -2,7 +2,9 @@ CHANGELOG
 
 ## 0.0.2 (unreleased):
 * Feature: Add schema validation in compiler pass
-
+* DX: Add Type hint where applicable
+* Fix: specify php version in composer.json
+* Fix: Specify guzzle as a requirement (used in Client_Factory)
 
 ## 0.0.1 (2019-04-24):
 
