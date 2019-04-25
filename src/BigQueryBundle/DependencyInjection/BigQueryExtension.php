@@ -2,6 +2,7 @@
 
 namespace CCMBenchmark\BigQueryBundle\DependencyInjection;
 
+use CCMBenchmark\BigQueryBundle\BigQuery\MetadataInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -43,6 +44,7 @@ class BigQueryExtension extends ConfigurableExtension implements CompilerPassInt
     {
         $metadataDefinition = $container->autowire(\CCMBenchmark\BigQueryBundle\BigQuery\MetadataRepository::class, \CCMBenchmark\BigQueryBundle\BigQuery\MetadataRepository::class);
         $metadata = $container->findTaggedServiceIds('big_query.metadata');
+
         foreach ($metadata as $serviceId => &$tags) {
             if (count($tags) > 1) {
                 throw new InvalidConfigurationException(sprintf(
@@ -51,6 +53,13 @@ class BigQueryExtension extends ConfigurableExtension implements CompilerPassInt
                     $serviceId
                 ));
             }
+            /**
+             * @var $service MetadataInterface
+             */
+            $service = $container->get($serviceId);
+            $validator = new SchemaValidator($service);
+            $validator->validate();
+
             $metadataDefinition->addMethodCall('addMetadata', [new Reference($serviceId)]);
         }
     }
