@@ -11,7 +11,13 @@ class FileSystem implements FileSystemInterface
         $this->storageClient = $storageClient;
     }
 
-    public function store($bucket, $name, $mime, $data): void
+    /**
+     * @param $bucket
+     * @param $name
+     * @param $mime
+     * @param $data
+     */
+    public function store(string $bucket, string $name, string $mime, string $data): void
     {
         $object = new \Google_Service_Storage_StorageObject();
         $object->setContentType($mime);
@@ -26,7 +32,7 @@ class FileSystem implements FileSystemInterface
         );
     }
 
-    public function delete($bucket, $name): void
+    public function delete(string $bucket, string $name): void
     {
         $this->storageClient->objects->delete($bucket, $name);
     }

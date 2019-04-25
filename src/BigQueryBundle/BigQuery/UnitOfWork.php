@@ -37,14 +37,24 @@ class UnitOfWork
         $this->jobFactory = $jobFactory;
     }
 
-    public function addData(RowInterface $data)
+    /**
+     * Add data to upload in Big Query
+     *
+     * @param RowInterface $data
+     * @return UnitOfWork
+     */
+    public function addData(RowInterface $data): UnitOfWork
     {
         $this->data[] = $data;
 
         return $this;
     }
 
-    public function flush()
+    /**
+     * Upload data to Google Big Query using a file stored in Google Cloud Storage.
+     * This method will create 1 file in cloud storage per metadata type and 1 job in big query per file.
+     */
+    public function flush(): void
     {
         $dataByMetadata = [];
         $metadataList = [];
@@ -67,7 +77,7 @@ class UnitOfWork
         $this->data = [];
     }
 
-    private function uploadData(MetadataInterface $metadata, array $data)
+    private function uploadData(MetadataInterface $metadata, array $data): void
     {
         $job = $this->jobFactory->createJob($metadata, $data);
         $this->bigQueryClient->jobs->insert($metadata->getProjectId(), $job);

@@ -11,7 +11,7 @@ class DummyFileSystem implements FileSystemInterface
     public $mime;
     public $data;
 
-    public function store($bucket, $name, $mime, $data) :void
+    public function store(string $bucket, string $name, string $mime, string $data) :void
     {
         $this->bucket = $bucket;
         $this->name = $name;
@@ -21,7 +21,7 @@ class DummyFileSystem implements FileSystemInterface
         return;
     }
 
-    public function delete($bucket, $name) :void
+    public function delete(string $bucket, string $name) :void
     {
         return;
     }

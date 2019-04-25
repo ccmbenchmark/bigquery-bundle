@@ -11,12 +11,18 @@ class MetadataRepository
      */
     private $metadata = [];
 
-    public function addMetadata(MetadataInterface $metadatum)
+    public function addMetadata(MetadataInterface $metadatum): void
     {
         $this->metadata[] = $metadatum;
     }
 
-    public function getMetadataForEntity(RowInterface $reportingRow)
+    /**
+     * Find metadata related to an entity
+     *
+     * @param RowInterface $reportingRow
+     * @return MetadataInterface
+     */
+    public function getMetadataForEntity(RowInterface $reportingRow): MetadataInterface
     {
         foreach ($this->metadata as $metadatum) {
             $class = $metadatum->getEntityClass();

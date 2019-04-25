@@ -3,14 +3,16 @@
     "description": "Batch upload data to Google bigquery with Symfony",
     "type": "symfony-bundle",
     "require": {
+        "php": "^7.1",
+        "ext-json": "*",
+        "ext-curl": "*",
         "google/cloud-bigquery": "^1.5",
         "google/cloud-storage": "^1.10",
         "google/apiclient": "^2.0",
         "symfony/dependency-injection": "^3.4|^4.0",
         "symfony/config": "^3.4|^4.0",
-        "ext-json": "*",
-        "ext-curl": "*",
-        "symfony/http-kernel": "^3.4|^4.0"
+        "symfony/http-kernel": "^3.4|^4.0",
+        "guzzlehttp/guzzle": "^5.3|^6.0"
     },
     "require-dev": {
         "atoum/atoum": "^3.0@dev",

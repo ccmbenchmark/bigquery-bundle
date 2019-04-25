@@ -23,20 +23,20 @@ It's responsible to store the data and then to upload it to bigquery.
 ### Full example
 
     class MyMetadata implements CCMBenchmark\BigQueryBundle\BigQuery\MetadataInterface {
-        public function getEntityClass() {
+        public function getEntityClass(): string {
             return MyEntity::class;
         }
 
-        public function getDatasetId() {
+        public function getDatasetId(): string {
             return 'mydataset';
         }
-        public function getProjectId() {
+        public function getProjectId(): string {
             return 'myproject';
         }
-        public function getTableId() {
+        public function getTableId(): string {
             return 'mytable';
         }
-        public function getSchema() {
+        public function getSchema(): array {
             return [
                 [ "mode"=> "NULLABLE", "name"=> "sessions", "type"=> "INTEGER" ]
             ];

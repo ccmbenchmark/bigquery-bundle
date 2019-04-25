@@ -4,5 +4,8 @@ namespace CCMBenchmark\BigQueryBundle\BigQuery\Entity;
 
 interface RowInterface extends \JsonSerializable
 {
-    public function getCreatedAt();
+    /**
+     * @return \DateTimeInterface the date this line is added in bigquery
+     */
+    public function getCreatedAt(): \DateTimeInterface;
 }
