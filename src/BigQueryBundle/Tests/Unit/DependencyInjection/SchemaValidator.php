@@ -16,7 +16,7 @@ class SchemaValidator  extends atoum
 
     public function beforeTestMethod($method)
     {
-        $this->entity = new class implements RowInterface{
+        $this->entity = new class implements RowInterface {
             public function getCreatedAt(): \DateTimeInterface
             {
                 return new \DateTime();
@@ -31,7 +31,7 @@ class SchemaValidator  extends atoum
 
     private function generateMetadata(array $schema)
     {
-        return new class ($this->entity, $schema) implements MetadataInterface{
+        return new class ($this->entity, $schema) implements MetadataInterface {
             /**
              * @var RowInterface
              */
@@ -96,7 +96,7 @@ class SchemaValidator  extends atoum
 
         $this
             ->if($schemaValidator = new \CCMBenchmark\BigQueryBundle\DependencyInjection\SchemaValidator($schema))
-                ->exception(function () use ($schemaValidator) {
+                ->exception(function() use ($schemaValidator) {
                     $schemaValidator->validate();
                 })
                     ->isInstanceOf(InvalidSchemaException::class)
@@ -115,7 +115,7 @@ class SchemaValidator  extends atoum
 
         $this
             ->if($schemaValidator = new \CCMBenchmark\BigQueryBundle\DependencyInjection\SchemaValidator($schema))
-                ->exception(function () use ($schemaValidator) {
+                ->exception(function() use ($schemaValidator) {
                     $schemaValidator->validate();
                 })
                     ->isInstanceOf(InvalidSchemaException::class)
@@ -134,7 +134,7 @@ class SchemaValidator  extends atoum
 
         $this
             ->if($schemaValidator = new \CCMBenchmark\BigQueryBundle\DependencyInjection\SchemaValidator($schema))
-                ->exception(function () use ($schemaValidator) {
+                ->exception(function() use ($schemaValidator) {
                     $schemaValidator->validate();
                 })
                     ->isInstanceOf(InvalidSchemaException::class)
@@ -153,7 +153,7 @@ class SchemaValidator  extends atoum
 
         $this
             ->if($schemaValidator = new \CCMBenchmark\BigQueryBundle\DependencyInjection\SchemaValidator($schema))
-                ->exception(function () use ($schemaValidator) {
+                ->exception(function() use ($schemaValidator) {
                     $schemaValidator->validate();
                 })
                     ->isInstanceOf(InvalidSchemaException::class)
@@ -172,7 +172,7 @@ class SchemaValidator  extends atoum
 
         $this
             ->if($schemaValidator = new \CCMBenchmark\BigQueryBundle\DependencyInjection\SchemaValidator($schema))
-                ->exception(function () use ($schemaValidator) {
+                ->exception(function() use ($schemaValidator) {
                     $schemaValidator->validate();
                 })
                     ->isInstanceOf(InvalidSchemaException::class)
