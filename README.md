@@ -22,6 +22,8 @@ It's responsible to store the data and then to upload it to bigquery.
 
 ### Full example
 
+```php
+<?php
     class MyMetadata implements CCMBenchmark\BigQueryBundle\BigQuery\MetadataInterface {
         public function getEntityClass(): string {
             return MyEntity::class;
@@ -69,7 +71,7 @@ It's responsible to store the data and then to upload it to bigquery.
 
     // Your data will be uploaded when calling this method
     $unitOfWork->flush();
-
+```
 
 ## Getting started
 
@@ -80,19 +82,25 @@ It's responsible to store the data and then to upload it to bigquery.
 
 **Symfony 4+**:
 
+```php
+<?php
     //config/bundles.php
     return [
         (..)
         \CCMBenchmark\BigQueryBundle\BigQueryBundle::class => ['all' => true]
     ]
+```
 
 **Symfony 3.4**:
 
+```php
+<?php
     //app/AppKernel.php
     $bundles = array(
         (...)
         new \CCMBenchmark\BigQueryBundle\BigQueryBundle(),
     );
+```
 
 ### Setup your project on google cloud storage and google bigquery
 
@@ -108,6 +116,7 @@ So using this bundle can produce charges on your account. You are responsible of
 
 ### Setup the bundle
 
+```yml
     #config/packages/big_query.yml
     big_query:
         cloudstorage:
@@ -118,16 +127,19 @@ So using this bundle can produce charges on your account. You are responsible of
         proxy: ## Remove this section if you don't have any proxy or set the values to "~"
             host: "%proxy.host%"
             port: "%proxy.port"
+```
 
 ### Create and declare your metadata
 To create a metadata, create a new class implementing MetadataInterface.
 
 To automatically register your metadata into the UnitOfWork, this bundle provides a tag to declare on this service.
 
+```xml
     //config/services/services.xml
     <service id="AppBundle\MyMetadata">
         <tag name="big_query.metadata" />
     </service>
+```
 
 At this point your metadata are declared into the UnitOfWork, thanks to a CompilerPass.
 You are ready to upload data.
