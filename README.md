@@ -22,54 +22,56 @@ It's responsible to store the data and then to upload it to bigquery.
 
 ### Full example
 
-    class MyMetadata implements CCMBenchmark\BigQueryBundle\BigQuery\MetadataInterface {
-        public function getEntityClass(): string {
-            return MyEntity::class;
-        }
-
-        public function getDatasetId(): string {
-            return 'mydataset';
-        }
-        public function getProjectId(): string {
-            return 'myproject';
-        }
-        public function getTableId(): string {
-            return 'mytable';
-        }
-        public function getSchema(): array {
-            return [
-                [ "mode"=> "NULLABLE", "name"=> "sessions", "type"=> "INTEGER" ]
-            ];
-        }
+```php
+<?php
+class MyMetadata implements CCMBenchmark\BigQueryBundle\BigQuery\MetadataInterface {
+    public function getEntityClass(): string {
+        return MyEntity::class;
     }
 
-    class MyEntity implements CCMBenchmark\BigQueryBundle\BigQuery\Entity\RowInterface {
-        use CCMBenchmark\BigQueryBundle\BigQuery\Entity\RowTrait;
+    public function getDatasetId(): string {
+        return 'mydataset';
+    }
+    public function getProjectId(): string {
+        return 'myproject';
+    }
+    public function getTableId(): string {
+        return 'mytable';
+    }
+    public function getSchema(): array {
+        return [
+            [ "mode"=> "NULLABLE", "name"=> "sessions", "type"=> "INTEGER" ]
+        ];
+    }
+}
 
-        private $sessions;
-        public function __construct(int $sessions) {
-            $this->sessions = $sessions;
-        }
+class MyEntity implements CCMBenchmark\BigQueryBundle\BigQuery\Entity\RowInterface {
+    use CCMBenchmark\BigQueryBundle\BigQuery\Entity\RowTrait;
 
-        public function jsonSerialize()
-        {
-            return [
-                'sessions' => $this->sessions,
-                'created_at' => (new \Datetime())->format('Y-m-d H:i:s'),
-            ];
-        }
+    private $sessions;
+    public function __construct(int $sessions) {
+        $this->sessions = $sessions;
     }
 
-    // @var $unitOfWork \CCMBenchmark\BigQueryBundle\BigQuery\UnitOfWork
-    $unitOfWork->addData(
-        new MyEntity(
-           1000
-        )
-    );
+    public function jsonSerialize()
+    {
+        return [
+            'sessions' => $this->sessions,
+            'created_at' => (new \Datetime())->format('Y-m-d H:i:s'),
+        ];
+    }
+}
 
-    // Your data will be uploaded when calling this method
-    $unitOfWork->flush();
+// @var $unitOfWork \CCMBenchmark\BigQueryBundle\BigQuery\UnitOfWork
+$unitOfWork->addData(
+    new MyEntity(
+       1000
+    )
+);
 
+// Your data will be uploaded when calling this method
+$unitOfWork->flush();
+```
 
 ## Getting started
 
@@ -80,19 +82,25 @@ It's responsible to store the data and then to upload it to bigquery.
 
 **Symfony 4+**:
 
-    //config/bundles.php
-    return [
-        (..)
-        \CCMBenchmark\BigQueryBundle\BigQueryBundle::class => ['all' => true]
-    ]
+```php
+<?php
+//config/bundles.php
+return [
+    (..)
+    \CCMBenchmark\BigQueryBundle\BigQueryBundle::class => ['all' => true]
+]
+```
 
 **Symfony 3.4**:
 
-    //app/AppKernel.php
-    $bundles = array(
-        (...)
-        new \CCMBenchmark\BigQueryBundle\BigQueryBundle(),
-    );
+```php
+<?php
+//app/AppKernel.php
+$bundles = array(
+    (...)
+    new \CCMBenchmark\BigQueryBundle\BigQueryBundle(),
+);
+```
 
 ### Setup your project on google cloud storage and google bigquery
 
@@ -108,26 +116,30 @@ So using this bundle can produce charges on your account. You are responsible of
 
 ### Setup the bundle
 
-    #config/packages/big_query.yml
-    big_query:
-        cloudstorage:
-            bucket: [Name of your bucket in google cloud storage]
-        api:
-            application_name: "My application"
-            credentials_file: "[Path to your credentials in json format]"
-        proxy: ## Remove this section if you don't have any proxy or set the values to "~"
-            host: "%proxy.host%"
-            port: "%proxy.port"
+```yml
+#config/packages/big_query.yml
+big_query:
+    cloudstorage:
+        bucket: [Name of your bucket in google cloud storage]
+    api:
+        application_name: "My application"
+        credentials_file: "[Path to your credentials in json format]"
+    proxy: ## Remove this section if you don't have any proxy or set the values to "~"
+        host: "%proxy.host%"
+        port: "%proxy.port"
+```
 
 ### Create and declare your metadata
 To create a metadata, create a new class implementing MetadataInterface.
 
 To automatically register your metadata into the UnitOfWork, this bundle provides a tag to declare on this service.
 
-    //config/services/services.xml
-    <service id="AppBundle\MyMetadata">
-        <tag name="big_query.metadata" />
-    </service>
+```xml
+//config/services/services.xml
+<service id="AppBundle\MyMetadata">
+    <tag name="big_query.metadata" />
+</service>
+```
 
 At this point your metadata are declared into the UnitOfWork, thanks to a CompilerPass.
 You are ready to upload data.
