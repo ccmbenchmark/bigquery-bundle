@@ -1,5 +1,9 @@
 CHANGELOG
 
+## 1.0.0 (2020-04-28):
+* Dumping stable version
+* Allow Symfony 5
+
 ## 1.0.0-beta (2019-05-03):
 * Version 0.0.2 flagged as beta
 
