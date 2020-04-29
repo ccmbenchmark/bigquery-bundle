@@ -17,6 +17,8 @@
         <service id="Google_Service_Storage" class="Google_Service_Storage" />
 
         <service id="CCMBenchmark\BigQueryBundle\BigQuery\UnitOfWork" />
+
+        <service alias="CCMBenchmark\BigQueryBundle\CloudStorage\FileSystem" id="CCMBenchmark\BigQueryBundle\CloudStorage\FileSystemInterface" />
         <!-- BigQuery Metadata -->
         <!--<service id="AppBundle\DataStorage\BigQuery\DisplayMetadata">
             <argument>%bigquery.projectid%</argument>
