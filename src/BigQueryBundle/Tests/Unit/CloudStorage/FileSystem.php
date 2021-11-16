@@ -3,7 +3,7 @@
 namespace CCMBenchmark\BigQueryBundle\Tests\Unit\CloudStorage;
 
 
-use mageekguy\atoum;
+use atoum;
 
 class FileSystem extends atoum
 {
@@ -19,7 +19,6 @@ class FileSystem extends atoum
 
     public function beforeTestMethod($method)
     {
-        parent::beforeTestMethod($method);
         $this->mockGenerator()->orphanize('__construct');
         $googleClientMock = new \mock\Google_Client();
 

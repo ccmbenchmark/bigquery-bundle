@@ -7,7 +7,7 @@ use CCMBenchmark\BigQueryBundle\Tests\Fixtures\Entity\Analytics;
 use CCMBenchmark\BigQueryBundle\Tests\Fixtures\Entity\Display;
 use CCMBenchmark\BigQueryBundle\Tests\Fixtures\Metadata\AnalyticsMetadata;
 use CCMBenchmark\BigQueryBundle\Tests\Fixtures\Metadata\DisplayMetadata;
-use mageekguy\atoum;
+use atoum;
 
 class UnitOfWork extends atoum
 {
@@ -23,7 +23,6 @@ class UnitOfWork extends atoum
 
     public function beforeTestMethod($method)
     {
-        parent::beforeTestMethod($method);
         $this->fileSystem = new \mock\CCMBenchmark\BigQueryBundle\Tests\Fixtures\CloudStorage\DummyFileSystem();
 
         $this->jobFactory = new \CCMBenchmark\BigQueryBundle\BigQuery\JobFactory(

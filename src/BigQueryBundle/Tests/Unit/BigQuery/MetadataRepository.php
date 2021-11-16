@@ -6,7 +6,7 @@ use CCMBenchmark\BigQueryBundle\Tests\Fixtures\Entity\Analytics;
 use CCMBenchmark\BigQueryBundle\Tests\Fixtures\Entity\Display;
 use CCMBenchmark\BigQueryBundle\Tests\Fixtures\Metadata\AnalyticsMetadata;
 use CCMBenchmark\BigQueryBundle\Tests\Fixtures\Metadata\DisplayMetadata;
-use mageekguy\atoum;
+use atoum;
 
 class MetadataRepository extends atoum
 {
