@@ -5,7 +5,7 @@ namespace CCMBenchmark\BigQueryBundle\Tests\Unit\DependencyInjection;
 use CCMBenchmark\BigQueryBundle\BigQuery\Entity\RowInterface;
 use CCMBenchmark\BigQueryBundle\BigQuery\MetadataInterface;
 use CCMBenchmark\BigQueryBundle\DependencyInjection\InvalidSchemaException;
-use mageekguy\atoum;
+use atoum;
 
 class SchemaValidator  extends atoum
 {
@@ -101,7 +101,7 @@ class SchemaValidator  extends atoum
                 })
                     ->isInstanceOf(InvalidSchemaException::class)
                         ->string($this->exception->getMessage())
-                            ->matches('/Missing  keys "type" in the schema of Metadata class@anonymous.* on row 0\. Required keys are: name, mode, type/')
+                            ->matches('/Missing  keys "type" in the schema of Metadata .*@anonymous.* on row 0\. Required keys are: name, mode, type/')
         ;
     }
 
@@ -120,7 +120,7 @@ class SchemaValidator  extends atoum
                 })
                     ->isInstanceOf(InvalidSchemaException::class)
                         ->string($this->exception->getMessage())
-                            ->matches('/Invalid key "keyAdded" in the schema of Metadata class@anonymous.* on row 0\. Valid keys are: name, mode, type/')
+                            ->matches('/Invalid key "keyAdded" in the schema of Metadata .*@anonymous.* on row 0\. Valid keys are: name, mode, type/')
         ;
     }
 
@@ -139,7 +139,7 @@ class SchemaValidator  extends atoum
                 })
                     ->isInstanceOf(InvalidSchemaException::class)
                         ->string($this->exception->getMessage())
-                            ->matches('/Invalid mode "NOTVALID" in the schema of Metadata class@anonymous.* on row 0\. Valid modes are: .*/')
+                            ->matches('/Invalid mode "NOTVALID" in the schema of Metadata .*@anonymous.* on row 0\. Valid modes are: .*/')
         ;
     }
 
@@ -158,7 +158,7 @@ class SchemaValidator  extends atoum
                 })
                     ->isInstanceOf(InvalidSchemaException::class)
                         ->string($this->exception->getMessage())
-                            ->matches('/Invalid type "NOTVALID" in the schema of Metadata class@anonymous.* on row 0\. Valid types are: .*/')
+                            ->matches('/Invalid type "NOTVALID" in the schema of Metadata .*@anonymous.* on row 0\. Valid types are: .*/')
         ;
     }
 
@@ -177,7 +177,7 @@ class SchemaValidator  extends atoum
                 })
                     ->isInstanceOf(InvalidSchemaException::class)
                         ->string($this->exception->getMessage())
-                            ->matches('/Invalid name "Not A Valid Name" in the schema of Metadata class@anonymous.* on row 0\. Valid names can contain letters, numbers and underscores\./')
+                            ->matches('/Invalid name "Not A Valid Name" in the schema of Metadata .*@anonymous.* on row 0\. Valid names can contain letters, numbers and underscores\./')
         ;
     }
 }

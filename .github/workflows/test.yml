@@ -1,0 +1,24 @@
+name: test
+on: [push, pull_request]
+jobs:
+  test:
+    name: "PHP ${{ matrix.php-version }} - ${{ matrix.dependencies }} deps"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: [7.3, 7.4, 8.0, 8.1]
+        dependencies:
+          - "lowest"
+          - "highest"
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: setup PHP ${{ matrix.node-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+      - uses: "ramsey/composer-install@v1"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+      - name: Test
+        run: vendor/bin/atoum -d src/BigQueryBundle/Tests/Unit/
