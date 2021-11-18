@@ -27,13 +27,6 @@ class BigQueryExtension extends \atoum
                 ], $container))
                     ->isNull()
                         ->dump($container)
-            ->exception(function() use ($container)
-            {
-                $container->get('Google_Client');
-            })
-                ->isInstanceOf(\DomainException::class)
-                ->error()
-                    ->exists()
         ;
     }
 }
