@@ -8,17 +8,21 @@
 
         <prototype namespace="CCMBenchmark\BigQueryBundle\" resource="../*" />
 
-        <service id="Google_Client" class="Google_Client">
+        <service id="Google_Client" class="Google\Client">
             <factory service="CCMBenchmark\BigQueryBundle\ClientFactory" method="getClient" />
         </service>
 
         <!-- Google -->
-        <service id="Google_Service_Bigquery" class="Google_Service_Bigquery" />
-        <service id="Google_Service_Storage" class="Google_Service_Storage" />
+        <service id="Google_Service_Bigquery" class="Google\Service\Bigquery">
+            <argument type="service" id="Google_Client" />
+        </service>
+        <service id="Google_Service_Storage" class="Google\Service\Storage">
+            <argument type="service" id="Google_Client" />
+        </service>
 
         <service id="CCMBenchmark\BigQueryBundle\BigQuery\UnitOfWork" />
 
-        <service alias="CCMBenchmark\BigQueryBundle\CloudStorage\FileSystem" id="CCMBenchmark\BigQueryBundle\CloudStorage\FileSystemInterface" />
+        <service alias="CCMBenchmark\BigQueryBundle\CloudStorage\FileSystem" id="CCMBenchmark\BigQueryBundle\CloudStorage\FileSystemInterface"></service>
         <!-- BigQuery Metadata -->
         <!--<service id="AppBundle\DataStorage\BigQuery\DisplayMetadata">
             <argument>%bigquery.projectid%</argument>

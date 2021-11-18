@@ -1,5 +1,12 @@
 CHANGELOG
 
+## 1.0.2 (2021-11-18):
+* Remove autoconfigure for Google Services
+
+## 1.0.1 (2021-11-17):
+* Add tests
+* Update google deps
+
 ## 1.0.0 (2020-10-27):
 * Dumping stable version
 * Allow Symfony 5
