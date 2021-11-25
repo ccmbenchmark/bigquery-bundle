@@ -7,6 +7,7 @@ namespace CCMBenchmark\BigQueryBundle\BigQuery;
 use CCMBenchmark\BigQueryBundle\BigQuery\Entity\RowInterface;
 use CCMBenchmark\BigQueryBundle\CloudStorage\FileSystem;
 use CCMBenchmark\BigQueryBundle\CloudStorage\FileSystemInterface;
+use Google_Service_Bigquery_QueryRequest;
 
 class UnitOfWork
 {
@@ -51,6 +52,33 @@ class UnitOfWork
     }
 
     /**
+     * Returns data based on project id and SQL query
+     *
+     * @param string $projectId
+     * @param string $query
+     * @param bool $useLegacySQL
+     * @return \Google\Service\Bigquery\GetQueryResultsResponse
+     */
+    public function requestData(string $projectId, string $query, bool $useLegacySQL = false): \Google\Service\Bigquery\GetQueryResultsResponse
+    {
+        $queryRequest = new Google_Service_Bigquery_QueryRequest();
+        $queryRequest->setDryRun(false);
+        // Legacy SQL is not compatible with partitioned table, so we have to be explicit
+        $queryRequest->setUseLegacySql($useLegacySQL);
+        $queryRequest->setQuery($query);
+
+        $job = $this->bigQueryClient->jobs->query($projectId, $queryRequest);
+        $job_id = $job->getJobReference()->getJobId();
+        $pageToken = null;
+        do {
+            $queryResults = $this->bigQueryClient->jobs->getQueryResults($projectId, $job_id);
+            $queryResults->setPageToken($pageToken);
+        } while (!$queryResults->getJobComplete());
+
+        return $queryResults;
+    }
+
+    /**
      * Upload data to Google Big Query using a file stored in Google Cloud Storage.
      * This method will create 1 file in cloud storage per metadata type and 1 job in big query per file.
      */
@@ -82,4 +110,6 @@ class UnitOfWork
         $job = $this->jobFactory->createJob($metadata, $data);
         $this->bigQueryClient->jobs->insert($metadata->getProjectId(), $job);
     }
+
+
 }
