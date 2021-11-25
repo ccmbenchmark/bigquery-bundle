@@ -144,7 +144,7 @@ To automatically register your metadata into the UnitOfWork, this bundle provide
 At this point your metadata are declared into the UnitOfWork, thanks to a CompilerPass.
 You are ready to upload data.
 
-### Working with UnitOfWorl service
+### Working with UnitOfWork service
 You need to use the service `CCMBenchmark\BigQueryBundle\BigQuery\UnitOfWork`.
 This service offers a simple API.
 
