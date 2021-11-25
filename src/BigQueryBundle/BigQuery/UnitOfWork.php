@@ -7,12 +7,12 @@ namespace CCMBenchmark\BigQueryBundle\BigQuery;
 use CCMBenchmark\BigQueryBundle\BigQuery\Entity\RowInterface;
 use CCMBenchmark\BigQueryBundle\CloudStorage\FileSystem;
 use CCMBenchmark\BigQueryBundle\CloudStorage\FileSystemInterface;
-use Google_Service_Bigquery_QueryRequest;
+use Google\Service\Bigquery\QueryRequest;
 
 class UnitOfWork
 {
     /**
-     * @var \Google_Service_Bigquery
+     * @var \Google\Service\Bigquery
      */
     private $bigQueryClient;
 
@@ -61,7 +61,7 @@ class UnitOfWork
      */
     public function requestData(string $projectId, string $query, bool $useLegacySQL = false): \Google\Service\Bigquery\GetQueryResultsResponse
     {
-        $queryRequest = new Google_Service_Bigquery_QueryRequest();
+        $queryRequest = new QueryRequest();
         $queryRequest->setDryRun(false);
         // Legacy SQL is not compatible with partitioned table, so we have to be explicit
         $queryRequest->setUseLegacySql($useLegacySQL);

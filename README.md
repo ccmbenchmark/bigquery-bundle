@@ -156,7 +156,7 @@ When all you're entities are in the UnitOfWork, call `flush` to upload it.
 Call `requestData` to make a request to the specified `projectId` it will return a `\Google\Service\Bigquery\GetQueryResultsResponse`
 ```php
 <?php
-class myDataSource implements DataSourceInterface
+class myDataSource
 {
     private string $projectId;
     private UnitOfWork $unitOfWork;
