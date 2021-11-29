@@ -29,7 +29,7 @@ class UnitOfWork
     private $data = [];
 
     public function __construct(
-        \Google_Service_Bigquery $bigQueryClient,
+        \Google\Service\Bigquery $bigQueryClient,
         MetadataRepository $metadataRepository,
         JobFactory $jobFactory
     ) {
