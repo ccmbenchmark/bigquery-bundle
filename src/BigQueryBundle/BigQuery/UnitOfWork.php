@@ -7,11 +7,12 @@ namespace CCMBenchmark\BigQueryBundle\BigQuery;
 use CCMBenchmark\BigQueryBundle\BigQuery\Entity\RowInterface;
 use CCMBenchmark\BigQueryBundle\CloudStorage\FileSystem;
 use CCMBenchmark\BigQueryBundle\CloudStorage\FileSystemInterface;
+use Google\Service\Bigquery\QueryRequest;
 
 class UnitOfWork
 {
     /**
-     * @var \Google_Service_Bigquery
+     * @var \Google\Service\Bigquery
      */
     private $bigQueryClient;
 
@@ -28,7 +29,7 @@ class UnitOfWork
     private $data = [];
 
     public function __construct(
-        \Google_Service_Bigquery $bigQueryClient,
+        \Google\Service\Bigquery $bigQueryClient,
         MetadataRepository $metadataRepository,
         JobFactory $jobFactory
     ) {
@@ -48,6 +49,33 @@ class UnitOfWork
         $this->data[] = $data;
 
         return $this;
+    }
+
+    /**
+     * Returns data based on project id and SQL query
+     *
+     * @param string $projectId
+     * @param string $query
+     * @param bool $useLegacySQL
+     * @return \Google\Service\Bigquery\GetQueryResultsResponse
+     */
+    public function requestData(string $projectId, string $query, bool $useLegacySQL = false): \Google\Service\Bigquery\GetQueryResultsResponse
+    {
+        $queryRequest = new QueryRequest();
+        $queryRequest->setDryRun(false);
+        // Legacy SQL is not compatible with partitioned table, so we have to be explicit
+        $queryRequest->setUseLegacySql($useLegacySQL);
+        $queryRequest->setQuery($query);
+
+        $job = $this->bigQueryClient->jobs->query($projectId, $queryRequest);
+        $job_id = $job->getJobReference()->getJobId();
+        $pageToken = null;
+        do {
+            $queryResults = $this->bigQueryClient->jobs->getQueryResults($projectId, $job_id);
+            $queryResults->setPageToken($pageToken);
+        } while (!$queryResults->getJobComplete());
+
+        return $queryResults;
     }
 
     /**
@@ -82,4 +110,6 @@ class UnitOfWork
         $job = $this->jobFactory->createJob($metadata, $data);
         $this->bigQueryClient->jobs->insert($metadata->getProjectId(), $job);
     }
+
+
 }

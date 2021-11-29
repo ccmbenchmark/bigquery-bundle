@@ -144,10 +144,39 @@ To automatically register your metadata into the UnitOfWork, this bundle provide
 At this point your metadata are declared into the UnitOfWork, thanks to a CompilerPass.
 You are ready to upload data.
 
-### Upload data to google bigquery
-To upload data, you need to use the service `CCMBenchmark\BigQueryBundle\BigQuery\UnitOfWork`.
-This service offers a simple API. Call `addData` to store a new Entity to upload.
+### Working with UnitOfWork service
+You need to use the service `CCMBenchmark\BigQueryBundle\BigQuery\UnitOfWork`.
+This service offers a simple API.
+
+#### Upload data to google bigquery
+Call `addData` to store a new Entity to upload.
 When all you're entities are in the UnitOfWork, call `flush` to upload it.
+
+#### Request data from google bigquery
+Call `requestData` to make a request to the specified `projectId` it will return a `\Google\Service\Bigquery\GetQueryResultsResponse`
+```php
+<?php
+class myDataSource
+{
+    private string $projectId;
+    private UnitOfWork $unitOfWork;
+    
+    public function __construct(UnitOfWork $unitOfWork, string $projectId)
+    {
+        $this->unitOfWork = $unitOfWork;
+        $this->projectId = $projectId;
+    }
+
+    public function getData(\DateTimeImmutable $reportDate, array $sites): array
+    {
+    $queryResults = $this->unitOfWork->queryData($this->projectId, 'SELECT field1, field2, field3 FROM myDataset.myTable');
+
+    $data = [];
+    foreach ($queryResults->getRows() as $row) {
+        $data[] = $row->current()->getV();
+    }
+}
+```
 
 ## Debugging
 If there is no exception thrown by the code but you cannot find your data in bigquery, you should follow this steps:
