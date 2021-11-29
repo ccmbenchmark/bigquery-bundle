@@ -1,5 +1,8 @@
 CHANGELOG
 
+## 1.1.0 (2021-11-29):
+* Added requestData to get results from BQ tables
+
 ## 1.0.3 (2021-11-18):
 * Support for symfony/config < 4.2 dropped
 
