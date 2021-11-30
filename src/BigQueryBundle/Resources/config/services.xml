@@ -8,16 +8,16 @@
 
         <prototype namespace="CCMBenchmark\BigQueryBundle\" resource="../*" />
 
-        <service id="Google_Client" class="Google\Client">
+        <service id="Google\Client" class="Google\Client">
             <factory service="CCMBenchmark\BigQueryBundle\ClientFactory" method="getClient" />
         </service>
 
         <!-- Google -->
         <service id="Google\Service\Bigquery" class="Google\Service\Bigquery">
-            <argument type="service" id="Google_Client" />
+            <argument type="service" id="Google\Client" />
         </service>
-        <service id="Google_Service_Storage" class="Google\Service\Storage">
-            <argument type="service" id="Google_Client" />
+        <service id="Google\Service\Storage" class="Google\Service\Storage">
+            <argument type="service" id="Google\Client" />
         </service>
 
         <service id="CCMBenchmark\BigQueryBundle\BigQuery\UnitOfWork" />

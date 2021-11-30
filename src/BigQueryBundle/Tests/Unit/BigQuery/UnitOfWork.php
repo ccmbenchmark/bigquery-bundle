@@ -31,7 +31,7 @@ class UnitOfWork extends atoum
         );
 
         $this->mockGenerator()->orphanize('__construct');
-        $googleClientMock = new \mock\Google_Client();
+        $googleClientMock = new \mock\Google\Client();
 
         $this->bigQueryClientMock = $this->newMockInstance(\Google\Service\Bigquery::class, null, null, [
             $googleClientMock

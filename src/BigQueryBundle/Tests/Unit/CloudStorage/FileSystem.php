@@ -20,9 +20,9 @@ class FileSystem extends atoum
     public function beforeTestMethod($method)
     {
         $this->mockGenerator()->orphanize('__construct');
-        $googleClientMock = new \mock\Google_Client();
+        $googleClientMock = new \mock\Google\Client();
 
-        $this->googleStorageMock = $this->newMockInstance(\Google_Service_Storage::class, null, null, [
+        $this->googleStorageMock = $this->newMockInstance(\Google\Service\Storage::class, null, null, [
             $googleClientMock
         ]);
         $this->googleStorageMock->objects = new class{

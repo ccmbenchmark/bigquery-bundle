@@ -37,15 +37,15 @@ class ClientFactory
     /**
      * Create a configured google client, using an eventually defined proxy and the configured credentials
      *
-     * @return \Google_Client
+     * @return \Google\Client
      * @throws \Google_Exception
      */
-    public function getClient(): \Google_Client
+    public function getClient(): \Google\Client
     {
-        $client = new \Google_Client();
+        $client = new \Google\Client();
         $client->setApplicationName($this->applicationName);
         $client->setAuthConfig($this->credentialsFile);
-        $client->addScope(\Google_Service_Storage::CLOUD_PLATFORM);
+        $client->addScope(\Google\Service\Storage::CLOUD_PLATFORM);
         if ($this->proxy !== [] && $this->proxy['host'] !== null) {
             $guzzle = new Client([
                 'base_uri' => $client->getConfig('base_path'),
