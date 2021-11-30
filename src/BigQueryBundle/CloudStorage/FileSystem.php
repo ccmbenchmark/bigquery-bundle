@@ -6,7 +6,7 @@ class FileSystem implements FileSystemInterface
 {
     private $storageClient;
 
-    public function __construct(\Google_Service_Storage $storageClient)
+    public function __construct(\Google\Service\Storage $storageClient)
     {
         $this->storageClient = $storageClient;
     }
@@ -19,7 +19,7 @@ class FileSystem implements FileSystemInterface
      */
     public function store(string $bucket, string $name, string $mime, string $data): void
     {
-        $object = new \Google_Service_Storage_StorageObject();
+        $object = new \Google\Service\Storage\StorageObject();
         $object->setContentType($mime);
         $object->setName($name);
 

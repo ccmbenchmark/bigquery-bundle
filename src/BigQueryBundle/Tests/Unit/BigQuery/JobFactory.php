@@ -46,7 +46,7 @@ class JobFactory extends atoum
                     )
                 ]
             ))
-            ->isInstanceOf(\Google_Service_Bigquery_Job::class)
+            ->isInstanceOf(\Google\Service\Bigquery\Job::class)
         ;
     }
 
@@ -71,7 +71,7 @@ class JobFactory extends atoum
                 ]
             ))
             /**
-             * @var $load \Google_Service_Bigquery_JobConfigurationLoad
+             * @var $load \Google\Service\Bigquery\JobConfigurationLoad
              */
             ->when($load = $job->getConfiguration()->getLoad())
                 ->string($load->getWriteDisposition())

@@ -31,14 +31,14 @@ class UnitOfWork extends atoum
         );
 
         $this->mockGenerator()->orphanize('__construct');
-        $googleClientMock = new \mock\Google_Client();
+        $googleClientMock = new \mock\Google\Client();
 
         $this->bigQueryClientMock = $this->newMockInstance(\Google\Service\Bigquery::class, null, null, [
             $googleClientMock
         ]);
         $this->bigQueryClientMock->jobs = new class{
             public $job = [];
-            function insert($projectId, \Google_Service_Bigquery_Job $job) {
+            function insert($projectId, \Google\Service\Bigquery\Job $job) {
                 $this->job[] = $job;
                 return true;
             }
