@@ -13,7 +13,7 @@
         </service>
 
         <!-- Google -->
-        <service id="Google_Service_Bigquery" class="Google\Service\Bigquery">
+        <service id="Google\Service\Bigquery" class="Google\Service\Bigquery">
             <argument type="service" id="Google_Client" />
         </service>
         <service id="Google_Service_Storage" class="Google\Service\Storage">
