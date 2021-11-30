@@ -38,7 +38,7 @@ class UnitOfWork extends atoum
         ]);
         $this->bigQueryClientMock->jobs = new class{
             public $job = [];
-            function insert($projectId, \Google_Service_Bigquery_Job $job) {
+            function insert($projectId, \Google\Service\Bigquery\Job $job) {
                 $this->job[] = $job;
                 return true;
             }

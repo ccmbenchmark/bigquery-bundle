@@ -25,9 +25,9 @@ class JobFactory
         $this->bucket = $bucket;
     }
 
-    public function createJob(MetadataInterface $metadata, array $data): \Google_Service_Bigquery_Job
+    public function createJob(MetadataInterface $metadata, array $data): \Google\Service\Bigquery\Job
     {
-        $job = new \Google_Service_Bigquery_Job();
+        $job = new \Google\Service\Bigquery\Job();
 
         $name = 'reporting-' . date('Y-m-d') . '-' . uniqid() . '.json';
 
@@ -57,11 +57,11 @@ class JobFactory
             implode(PHP_EOL, array_map('json_encode', $data))  // NewLine delimited JSON
         );
 
-        $jobConfiguration = new \Google_Service_Bigquery_JobConfiguration();
-        $jobConfigurationLoad = new \Google_Service_Bigquery_JobConfigurationLoad();
+        $jobConfiguration = new \Google\Service\Bigquery\JobConfiguration();
+        $jobConfigurationLoad = new \Google\Service\Bigquery\JobConfigurationLoad();
         $jobConfigurationLoad->setSourceUris(['gs://' . $this->bucket . '/' . $name]);
 
-        $reference = new \Google_Service_Bigquery_TableReference();
+        $reference = new \Google\Service\Bigquery\TableReference();
         $reference->setDatasetId($metadata->getDatasetId());
         $reference->setTableId($metadata->getTableId());
         $reference->setProjectId($metadata->getProjectId());
@@ -70,14 +70,14 @@ class JobFactory
         $jobConfigurationLoad->setSourceFormat("NEWLINE_DELIMITED_JSON");
         $jobConfigurationLoad->setWriteDisposition('WRITE_APPEND');
 
-        $schema = new \Google_Service_Bigquery_TableSchema();
+        $schema = new \Google\Service\Bigquery\TableSchema();
         $schema->setFields($metadata->getSchema());
         $jobConfigurationLoad->setSchema($schema);
 
         /**
          * We create a partition per day, using the column "date" from our dataset.
          */
-        $timePartitioning = new \Google_Service_Bigquery_TimePartitioning();
+        $timePartitioning = new \Google\Service\Bigquery\TimePartitioning();
         $timePartitioning->setType('DAY');
         $timePartitioning->setField('date');
         $jobConfigurationLoad->setTimePartitioning($timePartitioning);

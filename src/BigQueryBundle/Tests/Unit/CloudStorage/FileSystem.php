@@ -8,7 +8,7 @@ use atoum;
 class FileSystem extends atoum
 {
     /**
-     * @var \Google_Service_Storage
+     * @var \Google\Service\Storage
      */
     private $googleStorageMock;
 
@@ -28,7 +28,7 @@ class FileSystem extends atoum
         $this->googleStorageMock->objects = new class{
             public $insertions = [];
             public $deletions = [];
-            public function insert($bucket, \Google_Service_Storage_StorageObject $object, $metadata) {
+            public function insert($bucket, \Google\Service\Storage\StorageObject $object, $metadata) {
                 $this->insertions[] = ['bucket' => $bucket, 'object' => $object, 'metadata' => $metadata];
                 return true;
             }
@@ -45,7 +45,7 @@ class FileSystem extends atoum
             ->if($this->instance->store('bucket_test', 'myobject', 'application/json', 'TEST'))
             ->then($dataInsertion = $this->googleStorageMock->objects->insertions[0])
                 ->object($dataInsertion['object'])
-                    ->isInstanceOf(\Google_Service_Storage_StorageObject::class)
+                    ->isInstanceOf(\Google\Service\Storage\StorageObject::class)
                 ->string($dataInsertion['object']->getName())
                     ->isEqualTo('myobject')
                 ->string($dataInsertion['object']->getContentType())
