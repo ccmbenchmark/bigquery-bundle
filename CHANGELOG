@@ -1,5 +1,8 @@
 CHANGELOG
 
+## 1.1.2 (2022-02-03):
+* Allow guzzlehttp 7
+
 ## 1.1.1 (2021-11-30):
 * Fixed Google service id with proper namespace
 
