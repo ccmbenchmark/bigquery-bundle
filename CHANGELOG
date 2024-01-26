@@ -1,5 +1,8 @@
 CHANGELOG
 
+## 1.1.3 (2024-01-26):
+* Allow symfony up to 6
+
 ## 1.1.2 (2022-02-03):
 * Allow guzzlehttp 7
 
